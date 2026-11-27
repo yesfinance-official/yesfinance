@@ -479,15 +479,20 @@
       display: flex;
       justify-content: center;
       pointer-events: none;
-      margin-top: -82px;
-      padding: 28px 12px 10px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.94) 55%, rgba(255, 255, 255, 1) 100%);
+      margin-top: 0;
+      padding: 16px 12px 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.94) 45%, rgba(255, 255, 255, 1) 100%);
       transition: opacity .3s ease;
     }
-    .form-scroll-hint.is-hidden { opacity: 0; }
+    .form-scroll-hint.is-bottom {
+      background: transparent;
+      padding-top: 10px;
+    }
     .form-scroll-pill {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      text-align: center;
       gap: 8px;
       padding: 11px 22px;
       border-radius: 999px;
@@ -495,16 +500,29 @@
       color: #0A3628;
       border: 2px solid #0F5A3D;
       font-family: "Prompt", sans-serif;
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: 800;
       letter-spacing: 0.01em;
       box-shadow: 0 10px 28px rgba(10, 54, 40, 0.35), 0 0 0 4px rgba(255, 180, 79, 0.35);
       animation: floatPulse 1.8s ease-in-out infinite;
+      transition: background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
     .form-scroll-pill svg {
       width: 20px;
       height: 20px;
+      flex-shrink: 0;
       animation: bounceDown 1.2s ease-in-out infinite;
+    }
+    .form-scroll-hint.is-bottom .form-scroll-pill {
+      background: linear-gradient(135deg, #0F5A3D 0%, #16734E 100%);
+      color: #FFFFFF;
+      border-color: #FFB44F;
+      box-shadow: 0 8px 22px rgba(10, 54, 40, 0.3), 0 0 0 3px rgba(255, 180, 79, 0.35);
+      animation: none;
+    }
+    .form-scroll-hint.is-bottom .form-scroll-pill svg {
+      animation: none;
+      color: #FFB44F;
     }
     @keyframes floatPulse {
       0%, 100% { transform: translateY(0) scale(1); }
@@ -815,10 +833,10 @@
             title="แบบฟอร์มลงทะเบียน TFEX 101"
             src="https://docs.google.com/forms/d/e/1FAIpQLSfYY2hwMfz5cs26BMFQUAzliHux3Wq0idh6PEq8QmzIhp3pNg/viewform?embedded=true"
             loading="lazy">กำลังโหลด…</iframe>
-          <div class="form-scroll-hint" id="form-scroll-hint" aria-hidden="true">
+          <div class="form-scroll-hint" id="form-scroll-hint" aria-live="polite">
             <span class="form-scroll-pill">
-              <span>เลื่อนลงในแบบฟอร์ม</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <span id="form-scroll-text">เลื่อนลงในแบบฟอร์ม</span>
+              <svg id="form-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M6 9l6 6 6-6"/>
               </svg>
             </span>
@@ -828,10 +846,27 @@
           (function () {
             var card = document.getElementById('form-card');
             var hint = document.getElementById('form-scroll-hint');
-            if (!card || !hint) return;
-            var hide = function () { hint.classList.add('is-hidden'); };
-            card.addEventListener('touchstart', hide, { passive: true, once: true });
-            card.addEventListener('pointerdown', hide, { passive: true, once: true });
+            var textEl = document.getElementById('form-scroll-text');
+            var iconEl = document.getElementById('form-scroll-icon');
+            if (!card || !hint || !textEl || !iconEl) return;
+            var chevronPath = '<path d="M6 9l6 6 6-6"/>';
+            var checkPath = '<path d="M20 6L9 17l-5-5"/>';
+            var isBottom = false;
+            var update = function () {
+              var rect = card.getBoundingClientRect();
+              var atBottom = rect.bottom <= window.innerHeight + 60;
+              if (atBottom !== isBottom) {
+                isBottom = atBottom;
+                hint.classList.toggle('is-bottom', isBottom);
+                textEl.textContent = isBottom
+                  ? 'ตรวจสอบความถูกต้องแล้วกดส่งได้เลย'
+                  : 'เลื่อนลงในแบบฟอร์ม';
+                iconEl.innerHTML = isBottom ? checkPath : chevronPath;
+              }
+            };
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update, { passive: true });
+            update();
           })();
         </script>
         <div class="form-actions" style="margin:16px 0 0">
