@@ -100,21 +100,21 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      background: var(--red);
-      color: var(--white);
+      background: linear-gradient(135deg, #FFC966 0%, #FFB44F 55%, #F5A63F 100%);
+      color: #0A3628;
       font-weight: 700;
       text-decoration: none;
       border-radius: 999px;
       border: 0;
       cursor: pointer;
-      box-shadow: 0 8px 22px rgba(220, 38, 38, 0.32);
-      transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 8px 22px rgba(245, 166, 63, 0.34);
+      transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
       white-space: nowrap;
     }
     .cta:hover, .cta:focus-visible {
-      background: var(--red-hover);
+      filter: brightness(1.06);
       transform: translateY(-1px);
-      box-shadow: 0 10px 26px rgba(220, 38, 38, 0.42);
+      box-shadow: 0 10px 26px rgba(245, 166, 63, 0.48);
     }
     .cta:active { transform: translateY(0); }
     .cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
