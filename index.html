@@ -61,6 +61,124 @@
       margin-inline: auto;
     }
 
+
+    /* ===== Market Ticker Tape (YES Finance Green/Gold) ===== */
+    .market-ticker {
+      position: relative;
+      z-index: 25;
+      background: linear-gradient(90deg, #0B3F2B 0%, #10563B 50%, #0B3F2B 100%);
+      border-bottom: 1px solid rgba(255, 180, 79, 0.28);
+      overflow: hidden;
+      height: 52px;
+      display: flex;
+      align-items: center;
+    }
+    .market-ticker::before,
+    .market-ticker::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 44px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .market-ticker::before {
+      left: 0;
+      background: linear-gradient(90deg, #0B3F2B 0%, rgba(11, 63, 43, 0) 100%);
+    }
+    .market-ticker::after {
+      right: 0;
+      background: linear-gradient(270deg, #0B3F2B 0%, rgba(11, 63, 43, 0) 100%);
+    }
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: tickerScroll 34s linear infinite;
+    }
+    .market-ticker:hover .ticker-track {
+      animation-play-state: paused;
+    }
+    .ticker-group {
+      display: flex;
+      align-items: center;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 22px;
+      height: 52px;
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      white-space: nowrap;
+      font-family: "Prompt", "Sarabun", sans-serif;
+    }
+    .ticker-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      background: rgba(255, 180, 79, 0.18);
+      color: #FFC966;
+      border: 1px solid rgba(255, 180, 79, 0.35);
+    }
+    .ticker-sym {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .ticker-val {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #F4FBF7;
+      font-variant-numeric: tabular-nums;
+    }
+    .ticker-chg {
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .ticker-chg.up { color: #5CF2B1; }
+    .ticker-chg.down { color: #FF8A8A; }
+    .ticker-chg.flat { color: #D5E8DF; }
+    .ticker-spark {
+      width: 66px;
+      height: 26px;
+      display: block;
+      overflow: visible;
+    }
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== Original YES Finance Candlestick & Trendwave Side Patterns ===== */
+    .side-pattern {
+      position: fixed;
+      top: 118px;
+      bottom: 0;
+      width: 84px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.42;
+      overflow: hidden;
+    }
+    .side-pattern-left { left: 0; }
+    .side-pattern-right { right: 0; transform: scaleX(-1); }
+    .side-pattern svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      .side-pattern { width: 38px; opacity: 0.28; }
+    }
+
     /* ===== Header ===== */
     .site-header {
       position: sticky;
@@ -708,6 +826,139 @@
       <a class="cta cta-sm" href="#register">ลงทะเบียนฟรี</a>
     </div>
   </header>
+
+  <div class="market-ticker" aria-label="อัตราแลกเปลี่ยนอ้างอิงและสินทรัพย์ในคอร์ส TFEX">
+    <div class="ticker-track" id="ticker-track">
+      <div class="ticker-group" id="ticker-group-a">
+        <div class="ticker-item"><span class="ticker-badge">TFEX</span><span class="ticker-sym">SET50 Futures</span><span class="ticker-chg up">S50</span></div>
+        <div class="ticker-item"><span class="ticker-badge">TFEX</span><span class="ticker-sym">Gold Online</span><span class="ticker-chg up">GO</span></div>
+        <div class="ticker-item"><span class="ticker-badge">TFEX</span><span class="ticker-sym">USD Futures</span><span class="ticker-chg up">USD</span></div>
+        <div class="ticker-item"><span class="ticker-badge">FX</span><span class="ticker-sym">USD/THB</span><span class="ticker-val">กำลังโหลด...</span></div>
+      </div>
+      <div class="ticker-group" id="ticker-group-b" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Original YES Finance candlestick & trendwave edge accents -->
+  <div class="side-pattern side-pattern-left" aria-hidden="true">
+    <svg viewBox="0 0 84 900" preserveAspectRatio="xMinYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="yesWaveGrad" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FFC966" stop-opacity="0.65"/>
+          <stop offset="50%" stop-color="#4EE1A0" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#FFC966" stop-opacity="0.25"/>
+        </linearGradient>
+      </defs>
+      <!-- Subtle rising trend curve -->
+      <path d="M6 880 C 32 760, 12 660, 44 540 C 66 456, 18 350, 48 220 C 64 150, 26 70, 52 10" stroke="url(#yesWaveGrad)" stroke-width="1.5" stroke-dasharray="4 6"/>
+      <path d="M20 890 C 52 780, 26 640, 58 510 C 76 436, 30 310, 62 180" stroke="#4EE1A0" stroke-opacity="0.22" stroke-width="1"/>
+      <!-- Minimal candlestick silhouettes -->
+      <g stroke="#FFC966" stroke-opacity="0.55" stroke-width="1.3">
+        <line x1="22" y1="90" x2="22" y2="165"/><rect x="17" y="112" width="10" height="32" rx="2" fill="#FFC966" fill-opacity="0.22"/>
+        <line x1="42" y1="138" x2="42" y2="215"/><rect x="37" y="156" width="10" height="38" rx="2" fill="#4EE1A0" fill-opacity="0.24" stroke="#4EE1A0"/>
+        <line x1="24" y1="340" x2="24" y2="430"/><rect x="19" y="362" width="10" height="44" rx="2" fill="#4EE1A0" fill-opacity="0.22" stroke="#4EE1A0"/>
+        <line x1="48" y1="395" x2="48" y2="475"/><rect x="43" y="418" width="10" height="34" rx="2" fill="#FFC966" fill-opacity="0.2"/>
+        <line x1="26" y1="620" x2="26" y2="705"/><rect x="21" y="642" width="10" height="36" rx="2" fill="#FFC966" fill-opacity="0.2"/>
+        <line x1="46" y1="675" x2="46" y2="760"/><rect x="41" y="694" width="10" height="42" rx="2" fill="#4EE1A0" fill-opacity="0.22" stroke="#4EE1A0"/>
+      </g>
+      <!-- Subtle gold diamond accents -->
+      <g fill="#FFC966" fill-opacity="0.45">
+        <polygon points="52,66 56,70 52,74 48,70"/>
+        <polygon points="18,268 22,272 18,276 14,272"/>
+        <polygon points="58,522 62,526 58,530 54,526"/>
+        <polygon points="20,796 24,800 20,804 16,800"/>
+      </g>
+    </svg>
+  </div>
+  <div class="side-pattern side-pattern-right" aria-hidden="true">
+    <svg viewBox="0 0 84 900" preserveAspectRatio="xMinYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 880 C 32 760, 12 660, 44 540 C 66 456, 18 350, 48 220 C 64 150, 26 70, 52 10" stroke="#4EE1A0" stroke-opacity="0.38" stroke-width="1.5" stroke-dasharray="4 6"/>
+      <g stroke="#FFC966" stroke-opacity="0.5" stroke-width="1.3">
+        <line x1="26" y1="150" x2="26" y2="230"/><rect x="21" y="172" width="10" height="36" rx="2" fill="#4EE1A0" fill-opacity="0.22" stroke="#4EE1A0"/>
+        <line x1="46" y1="210" x2="46" y2="290"/><rect x="41" y="232" width="10" height="34" rx="2" fill="#FFC966" fill-opacity="0.2"/>
+        <line x1="24" y1="470" x2="24" y2="555"/><rect x="19" y="492" width="10" height="38" rx="2" fill="#FFC966" fill-opacity="0.2"/>
+        <line x1="46" y1="530" x2="46" y2="615"/><rect x="41" y="550" width="10" height="40" rx="2" fill="#4EE1A0" fill-opacity="0.22" stroke="#4EE1A0"/>
+        <line x1="28" y1="740" x2="28" y2="820"/><rect x="23" y="760" width="10" height="34" rx="2" fill="#4EE1A0" fill-opacity="0.2" stroke="#4EE1A0"/>
+      </g>
+      <g fill="#FFC966" fill-opacity="0.45">
+        <polygon points="48,118 52,122 48,126 44,122"/>
+        <polygon points="22,360 26,364 22,368 18,364"/>
+        <polygon points="56,668 60,672 56,676 52,672"/>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    (function () {
+      var groupA = document.getElementById('ticker-group-a');
+      var groupB = document.getElementById('ticker-group-b');
+      if (!groupA || !groupB) return;
+
+      function buildSparkline(vals, isUp) {
+        if (!vals || vals.length < 2) return '';
+        var min = Math.min.apply(null, vals);
+        var max = Math.max.apply(null, vals);
+        var span = (max - min) || 1;
+        var w = 66, h = 24;
+        var pts = vals.map(function (v, i) {
+          var x = (i / (vals.length - 1)) * w;
+          var y = h - 3 - ((v - min) / span) * (h - 6);
+          return x.toFixed(1) + ',' + y.toFixed(1);
+        });
+        var color = isUp ? '#5CF2B1' : '#FF8A8A';
+        var fill = isUp ? 'rgba(92,242,177,0.16)' : 'rgba(255,138,138,0.16)';
+        var area = '0,' + h + ' ' + pts.join(' ') + ' ' + w + ',' + h;
+        return '<svg class="ticker-spark" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">'
+          + '<polygon points="' + area + '" fill="' + fill + '"/>'
+          + '<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
+          + '</svg>';
+      }
+
+      var end = new Date();
+      var start = new Date(end.getTime() - 25 * 86400000);
+      var iso = function (d) { return d.toISOString().slice(0, 10); };
+      var pairs = ['USD', 'EUR', 'GBP', 'AUD', 'CHF'];
+      var url = 'https://api.frankfurter.dev/v1/' + iso(start) + '..?base=THB&symbols=' + pairs.join(',');
+
+      fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || !data.rates) return;
+          var dates = Object.keys(data.rates).sort();
+          if (dates.length < 2) return;
+          var items = [
+            '<div class="ticker-item"><span class="ticker-badge">TFEX 101</span><span class="ticker-sym">SET50 · ทองคำ · ดอลลาร์</span><span class="ticker-chg up">อบรมฟรี ภูเก็ต</span></div>'
+          ];
+          pairs.forEach(function (sym) {
+            var series = dates.map(function (dt) {
+              var r = data.rates[dt] && data.rates[dt][sym];
+              return r ? (1 / r) : null;
+            }).filter(function (v) { return v !== null; });
+            if (series.length < 2) return;
+            var last = series[series.length - 1];
+            var prev = series[series.length - 2];
+            var pct = ((last - prev) / prev) * 100;
+            var cls = pct > 0.005 ? 'up' : (pct < -0.005 ? 'down' : 'flat');
+            var sign = pct > 0 ? '+' : '';
+            items.push(
+              '<div class="ticker-item">'
+              + '<span class="ticker-badge">FX</span>'
+              + '<span class="ticker-sym">' + sym + '/THB</span>'
+              + '<span class="ticker-val">' + last.toFixed(2) + '</span>'
+              + '<span class="ticker-chg ' + cls + '">' + sign + pct.toFixed(2) + '%</span>'
+              + buildSparkline(series, pct >= 0)
+              + '</div>'
+            );
+          });
+          var markup = items.join('');
+          groupA.innerHTML = markup;
+          groupB.innerHTML = markup;
+        })
+        .catch(function () {
+          groupB.innerHTML = groupA.innerHTML;
+        });
+    })();
+  </script>
 
   <main id="top">
     <section class="hero">
