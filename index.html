@@ -62,98 +62,18 @@
     }
 
 
-    /* ===== Market Ticker Tape (YES Finance Green/Gold) ===== */
-    .market-ticker {
+    /* ===== TradingView Ticker Tape Wrapper ===== */
+    .tv-ticker-bar {
       position: relative;
       z-index: 25;
       background: linear-gradient(90deg, #0B3F2B 0%, #10563B 50%, #0B3F2B 100%);
       border-bottom: 1px solid rgba(255, 180, 79, 0.28);
+      min-height: 46px;
       overflow: hidden;
-      height: 52px;
-      display: flex;
-      align-items: center;
     }
-    .market-ticker::before,
-    .market-ticker::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 44px;
-      z-index: 2;
-      pointer-events: none;
+    .tv-ticker-bar .tradingview-widget-container {
+      width: 100%;
     }
-    .market-ticker::before {
-      left: 0;
-      background: linear-gradient(90deg, #0B3F2B 0%, rgba(11, 63, 43, 0) 100%);
-    }
-    .market-ticker::after {
-      right: 0;
-      background: linear-gradient(270deg, #0B3F2B 0%, rgba(11, 63, 43, 0) 100%);
-    }
-    .ticker-track {
-      display: flex;
-      align-items: center;
-      width: max-content;
-      animation: tickerScroll 34s linear infinite;
-    }
-    .market-ticker:hover .ticker-track {
-      animation-play-state: paused;
-    }
-    .ticker-group {
-      display: flex;
-      align-items: center;
-    }
-    .ticker-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 22px;
-      height: 52px;
-      border-right: 1px solid rgba(255, 255, 255, 0.12);
-      white-space: nowrap;
-      font-family: "Prompt", "Sarabun", sans-serif;
-    }
-    .ticker-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px 7px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      background: rgba(255, 180, 79, 0.18);
-      color: #FFC966;
-      border: 1px solid rgba(255, 180, 79, 0.35);
-    }
-    .ticker-sym {
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: #FFFFFF;
-    }
-    .ticker-val {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #F4FBF7;
-      font-variant-numeric: tabular-nums;
-    }
-    .ticker-chg {
-      font-size: 0.78rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-    }
-    .ticker-chg.up { color: #5CF2B1; }
-    .ticker-chg.down { color: #FF8A8A; }
-    .ticker-chg.flat { color: #D5E8DF; }
-    .ticker-spark {
-      width: 66px;
-      height: 26px;
-      display: block;
-      overflow: visible;
-    }
-    @keyframes tickerScroll {
-      0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
@@ -827,15 +747,26 @@
     </div>
   </header>
 
-  <div class="market-ticker" aria-label="อัตราแลกเปลี่ยนอ้างอิงและสินทรัพย์ในคอร์ส TFEX">
-    <div class="ticker-track" id="ticker-track">
-      <div class="ticker-group" id="ticker-group-a">
-        <div class="ticker-item"><span class="ticker-badge">TFEX</span><span class="ticker-sym">SET50 Futures</span><span class="ticker-chg up">S50</span></div>
-        <div class="ticker-item"><span class="ticker-badge">TFEX</span><span class="ticker-sym">Gold Online</span><span class="ticker-chg up">GO</span></div>
-        <div class="ticker-item"><span class="ticker-badge">TFEX</span><span class="ticker-sym">USD Futures</span><span class="ticker-chg up">USD</span></div>
-        <div class="ticker-item"><span class="ticker-badge">FX</span><span class="ticker-sym">USD/THB</span><span class="ticker-val">กำลังโหลด...</span></div>
-      </div>
-      <div class="ticker-group" id="ticker-group-b" aria-hidden="true"></div>
+  <div class="tv-ticker-bar" aria-label="ราคาตลาดอ้างอิงจาก TradingView">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          { "proName": "OANDA:XAUUSD", "title": "Gold (XAU/USD)" },
+          { "proName": "FX_IDC:USDTHB", "title": "USD/THB" },
+          { "proName": "FX_IDC:EURTHB", "title": "EUR/THB" },
+          { "proName": "FX_IDC:GBPTHB", "title": "GBP/THB" },
+          { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
+          { "proName": "FOREXCOM:NSXUSD", "title": "US 100" }
+        ],
+        "showSymbolLogo": true,
+        "isTransparent": true,
+        "displayMode": "adaptive",
+        "colorTheme": "dark",
+        "locale": "th_TH"
+      }
+      </script>
     </div>
   </div>
 
@@ -887,78 +818,6 @@
       </g>
     </svg>
   </div>
-
-  <script>
-    (function () {
-      var groupA = document.getElementById('ticker-group-a');
-      var groupB = document.getElementById('ticker-group-b');
-      if (!groupA || !groupB) return;
-
-      function buildSparkline(vals, isUp) {
-        if (!vals || vals.length < 2) return '';
-        var min = Math.min.apply(null, vals);
-        var max = Math.max.apply(null, vals);
-        var span = (max - min) || 1;
-        var w = 66, h = 24;
-        var pts = vals.map(function (v, i) {
-          var x = (i / (vals.length - 1)) * w;
-          var y = h - 3 - ((v - min) / span) * (h - 6);
-          return x.toFixed(1) + ',' + y.toFixed(1);
-        });
-        var color = isUp ? '#5CF2B1' : '#FF8A8A';
-        var fill = isUp ? 'rgba(92,242,177,0.16)' : 'rgba(255,138,138,0.16)';
-        var area = '0,' + h + ' ' + pts.join(' ') + ' ' + w + ',' + h;
-        return '<svg class="ticker-spark" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">'
-          + '<polygon points="' + area + '" fill="' + fill + '"/>'
-          + '<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
-          + '</svg>';
-      }
-
-      var end = new Date();
-      var start = new Date(end.getTime() - 25 * 86400000);
-      var iso = function (d) { return d.toISOString().slice(0, 10); };
-      var pairs = ['USD', 'EUR', 'GBP', 'AUD', 'CHF'];
-      var url = 'https://api.frankfurter.dev/v1/' + iso(start) + '..?base=THB&symbols=' + pairs.join(',');
-
-      fetch(url)
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (!data || !data.rates) return;
-          var dates = Object.keys(data.rates).sort();
-          if (dates.length < 2) return;
-          var items = [
-            '<div class="ticker-item"><span class="ticker-badge">TFEX 101</span><span class="ticker-sym">SET50 · ทองคำ · ดอลลาร์</span><span class="ticker-chg up">อบรมฟรี ภูเก็ต</span></div>'
-          ];
-          pairs.forEach(function (sym) {
-            var series = dates.map(function (dt) {
-              var r = data.rates[dt] && data.rates[dt][sym];
-              return r ? (1 / r) : null;
-            }).filter(function (v) { return v !== null; });
-            if (series.length < 2) return;
-            var last = series[series.length - 1];
-            var prev = series[series.length - 2];
-            var pct = ((last - prev) / prev) * 100;
-            var cls = pct > 0.005 ? 'up' : (pct < -0.005 ? 'down' : 'flat');
-            var sign = pct > 0 ? '+' : '';
-            items.push(
-              '<div class="ticker-item">'
-              + '<span class="ticker-badge">FX</span>'
-              + '<span class="ticker-sym">' + sym + '/THB</span>'
-              + '<span class="ticker-val">' + last.toFixed(2) + '</span>'
-              + '<span class="ticker-chg ' + cls + '">' + sign + pct.toFixed(2) + '%</span>'
-              + buildSparkline(series, pct >= 0)
-              + '</div>'
-            );
-          });
-          var markup = items.join('');
-          groupA.innerHTML = markup;
-          groupB.innerHTML = markup;
-        })
-        .catch(function () {
-          groupB.innerHTML = groupA.innerHTML;
-        });
-    })();
-  </script>
 
   <main id="top">
     <section class="hero">
