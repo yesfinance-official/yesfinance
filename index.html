@@ -472,61 +472,88 @@
       box-shadow: var(--shadow);
       overflow: clip;
     }
-    .form-scroll-hint {
-      position: sticky;
-      bottom: 16px;
-      z-index: 10;
+    .form-side-rail {
+      position: fixed;
+      right: 10px;
+      top: 52%;
+      transform: translateY(-50%) translateX(20px);
+      z-index: 40;
       display: flex;
-      justify-content: center;
-      pointer-events: none;
-      margin-top: 0;
-      padding: 16px 12px 12px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.94) 45%, rgba(255, 255, 255, 1) 100%);
-      transition: opacity .3s ease;
-    }
-    .form-scroll-hint.is-bottom {
-      background: transparent;
-      padding-top: 10px;
-    }
-    .form-scroll-pill {
-      display: inline-flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
       gap: 8px;
-      padding: 11px 22px;
+      padding: 12px 7px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #FFC966 0%, #FFB44F 55%, #F5A63F 100%);
-      color: #0A3628;
-      border: 2px solid #0F5A3D;
-      font-family: "Prompt", sans-serif;
-      font-size: 0.98rem;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-      box-shadow: 0 10px 28px rgba(10, 54, 40, 0.35), 0 0 0 4px rgba(255, 180, 79, 0.35);
-      animation: floatPulse 1.8s ease-in-out infinite;
-      transition: background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
+      background: rgba(15, 90, 61, 0.94);
+      border: 2px solid #FFB44F;
+      box-shadow: 0 10px 28px rgba(10, 54, 40, 0.38);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .28s ease, transform .28s ease, background .25s ease;
     }
-    .form-scroll-pill svg {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
+    .form-side-rail.is-visible {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+    .form-side-rail .rail-label {
+      writing-mode: vertical-rl;
+      font-family: "Prompt", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #FFC966;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .form-side-rail .rail-track {
+      position: relative;
+      width: 6px;
+      height: 84px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      overflow: hidden;
+    }
+    .form-side-rail .rail-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 12%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #FFC966 0%, #FFB44F 100%);
+      transition: height .12s linear;
+    }
+    .form-side-rail .rail-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FFC966 0%, #FFB44F 100%);
+      color: #0A3628;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+    }
+    .form-side-rail .rail-icon svg {
+      width: 15px;
+      height: 15px;
       animation: bounceDown 1.2s ease-in-out infinite;
     }
-    .form-scroll-hint.is-bottom .form-scroll-pill {
-      background: linear-gradient(135deg, #0F5A3D 0%, #16734E 100%);
+    .form-side-rail.is-bottom {
+      background: #0F5A3D;
+      border-color: #4EE1A0;
+    }
+    .form-side-rail.is-bottom .rail-label {
       color: #FFFFFF;
-      border-color: #FFB44F;
-      box-shadow: 0 8px 22px rgba(10, 54, 40, 0.3), 0 0 0 3px rgba(255, 180, 79, 0.35);
+    }
+    .form-side-rail.is-bottom .rail-icon {
+      background: #2FA071;
+      color: #FFFFFF;
+    }
+    .form-side-rail.is-bottom .rail-icon svg {
       animation: none;
     }
-    .form-scroll-hint.is-bottom .form-scroll-pill svg {
-      animation: none;
-      color: #FFB44F;
-    }
-    @keyframes floatPulse {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-3px) scale(1.03); }
+    @media (min-width: 769px) {
+      .form-side-rail { right: 20px; padding: 14px 9px; }
+      .form-side-rail .rail-track { height: 104px; }
     }
     .form-card iframe {
       width: 100%;
@@ -831,35 +858,43 @@
             src="https://docs.google.com/forms/d/e/1FAIpQLSfYY2hwMfz5cs26BMFQUAzliHux3Wq0idh6PEq8QmzIhp3pNg/viewform?embedded=true"
             scrolling="no"
             loading="lazy">กำลังโหลด…</iframe>
-          <div class="form-scroll-hint" id="form-scroll-hint" aria-live="polite">
-            <span class="form-scroll-pill">
-              <span id="form-scroll-text">เลื่อนลงในแบบฟอร์ม</span>
-              <svg id="form-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-            </span>
-          </div>
+        </div>
+        <div class="form-side-rail" id="form-side-rail" aria-hidden="true">
+          <span class="rail-label" id="rail-label">เลื่อนลง</span>
+          <div class="rail-track"><div class="rail-fill" id="rail-fill"></div></div>
+          <span class="rail-icon">
+            <svg id="rail-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
         </div>
         <script>
           (function () {
             var card = document.getElementById('form-card');
-            var hint = document.getElementById('form-scroll-hint');
-            var textEl = document.getElementById('form-scroll-text');
-            var iconEl = document.getElementById('form-scroll-icon');
-            if (!card || !hint || !textEl || !iconEl) return;
+            var rail = document.getElementById('form-side-rail');
+            var fill = document.getElementById('rail-fill');
+            var label = document.getElementById('rail-label');
+            var icon = document.getElementById('rail-icon-svg');
+            if (!card || !rail || !fill || !label || !icon) return;
             var chevronPath = '<path d="M6 9l6 6 6-6"/>';
             var checkPath = '<path d="M20 6L9 17l-5-5"/>';
             var isBottom = false;
             var update = function () {
               var rect = card.getBoundingClientRect();
-              var atBottom = rect.bottom <= window.innerHeight + 60;
+              var vh = window.innerHeight;
+              var inView = rect.top < vh * 0.78 && rect.bottom > vh * 0.22;
+              rail.classList.toggle('is-visible', inView);
+              if (!inView) return;
+              var total = Math.max(rect.height - vh, 1);
+              var passed = Math.min(Math.max(-rect.top, 0), total);
+              var pct = Math.max(10, Math.round((passed / total) * 100));
+              fill.style.height = pct + '%';
+              var atBottom = rect.bottom <= vh + 70;
               if (atBottom !== isBottom) {
                 isBottom = atBottom;
-                hint.classList.toggle('is-bottom', isBottom);
-                textEl.textContent = isBottom
-                  ? 'ตรวจสอบความถูกต้องแล้วกดส่งได้เลย'
-                  : 'เลื่อนลงในแบบฟอร์ม';
-                iconEl.innerHTML = isBottom ? checkPath : chevronPath;
+                rail.classList.toggle('is-bottom', isBottom);
+                label.textContent = isBottom ? 'พร้อมส่ง' : 'เลื่อนลง';
+                icon.innerHTML = isBottom ? checkPath : chevronPath;
               }
             };
             window.addEventListener('scroll', update, { passive: true });
