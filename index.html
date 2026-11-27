@@ -482,6 +482,43 @@
       .form-card iframe { height: 1900px; }
     }
 
+
+    /* ===== Scroll-down cue ===== */
+    .scroll-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 10px auto 0;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 180, 79, 0.14);
+      border: 1px solid var(--gold-line);
+      color: var(--gold);
+      font-family: "Prompt", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s ease;
+    }
+    .scroll-cue:hover { background: rgba(255, 180, 79, 0.24); }
+    .scroll-cue svg {
+      width: 16px;
+      height: 16px;
+      animation: bounceDown 1.6s ease-in-out infinite;
+    }
+    .scroll-cue-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 12px 0 8px;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); opacity: 0.85; }
+      50% { transform: translateY(4px); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-cue svg { animation: none; }
+    }
+
     /* ===== Footer ===== */
     footer {
       background: #0C4932;
@@ -620,6 +657,14 @@
           <a class="cta cta-lg" href="#register">ลงทะเบียนเข้าร่วมอบรมฟรี</a>
           <p class="capacity">รับเพียง 20 ท่าน เท่านั้น! <span style="font-weight:600;color:var(--ivory)">(สมัครก่อนได้สิทธิ์ก่อน)</span></p>
         </div>
+        <div class="scroll-cue-wrap">
+          <a class="scroll-cue" href="#learn" aria-label="เลื่อนลงเพื่อดูรายละเอียด">
+            <span>เลื่อนลง</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -717,6 +762,14 @@
         </div>
         <div class="form-actions">
           <a class="btn-form" href="https://forms.gle/Yjez8iuQC1px182Q6" target="_blank" rel="noopener noreferrer">เปิดแบบฟอร์มลงทะเบียนเต็มหน้าจอ</a>
+        </div>
+        <div class="scroll-cue-wrap" style="margin: 0 0 12px;">
+          <span class="scroll-cue" style="cursor: default;">
+            <span>เลื่อนลงเพื่อกรอกแบบฟอร์มให้ครบ</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
         </div>
         <div class="form-card">
           <iframe
