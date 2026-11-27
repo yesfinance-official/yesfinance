@@ -861,7 +861,7 @@
             loading="lazy">กำลังโหลด…</iframe>
         </div>
         <div class="form-side-rail" id="form-side-rail" aria-hidden="true">
-          <span class="rail-label" id="rail-label">เลื่อนลง</span>
+          <span class="rail-label" id="rail-label">เลื่อนลงในแบบฟอร์ม</span>
           <div class="rail-track"><div class="rail-fill" id="rail-fill"></div></div>
           <span class="rail-icon">
             <svg id="rail-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
@@ -894,7 +894,7 @@
               if (atBottom !== isBottom) {
                 isBottom = atBottom;
                 rail.classList.toggle('is-bottom', isBottom);
-                label.textContent = isBottom ? 'พร้อมส่ง' : 'เลื่อนลง';
+                label.textContent = isBottom ? 'พร้อมส่ง' : 'เลื่อนลงในแบบฟอร์ม';
                 icon.innerHTML = isBottom ? checkPath : chevronPath;
               }
             };
