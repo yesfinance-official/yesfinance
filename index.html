@@ -465,11 +465,43 @@
       outline: none;
     }
     .form-card {
+      position: relative;
       background: var(--white);
       border-radius: 20px;
       padding: 8px 8px 4px;
       box-shadow: var(--shadow);
       overflow: hidden;
+    }
+    .form-scroll-hint {
+      position: sticky;
+      bottom: 12px;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      margin-top: -54px;
+      padding: 18px 0 6px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.92) 60%, rgba(255, 255, 255, 0.98) 100%);
+      transition: opacity .3s ease;
+    }
+    .form-scroll-hint.is-hidden { opacity: 0; }
+    .form-scroll-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #0F5A3D;
+      color: #FFB44F;
+      font-family: "Prompt", sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(10, 54, 40, 0.28);
+    }
+    .form-scroll-pill svg {
+      width: 15px;
+      height: 15px;
+      animation: bounceDown 1.5s ease-in-out infinite;
     }
     .form-card iframe {
       width: 100%;
@@ -771,12 +803,30 @@
             </svg>
           </span>
         </div>
-        <div class="form-card">
+        <div class="form-card" id="form-card">
           <iframe
             title="แบบฟอร์มลงทะเบียน TFEX 101"
             src="https://docs.google.com/forms/d/e/1FAIpQLSfYY2hwMfz5cs26BMFQUAzliHux3Wq0idh6PEq8QmzIhp3pNg/viewform?embedded=true"
             loading="lazy">กำลังโหลด…</iframe>
+          <div class="form-scroll-hint" id="form-scroll-hint" aria-hidden="true">
+            <span class="form-scroll-pill">
+              <span>เลื่อนลงในแบบฟอร์ม</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </span>
+          </div>
         </div>
+        <script>
+          (function () {
+            var card = document.getElementById('form-card');
+            var hint = document.getElementById('form-scroll-hint');
+            if (!card || !hint) return;
+            var hide = function () { hint.classList.add('is-hidden'); };
+            card.addEventListener('touchstart', hide, { passive: true, once: true });
+            card.addEventListener('pointerdown', hide, { passive: true, once: true });
+          })();
+        </script>
         <div class="form-actions" style="margin:16px 0 0">
           <a class="btn-form" href="https://forms.gle/Yjez8iuQC1px182Q6" target="_blank" rel="noopener noreferrer">เปิดฟอร์มในหน้าต่างใหม่</a>
         </div>
