@@ -20,9 +20,9 @@
       --green-900: #0A3628;
       --green-800: #0F4C3A;
       --green-600: #197B59;
-      --gold: #F6C945;
-      --gold-soft: rgba(246, 201, 69, 0.16);
-      --gold-line: rgba(246, 201, 69, 0.35);
+      --gold: #FFB44F;
+      --gold-soft: rgba(255, 180, 79, 0.16);
+      --gold-line: rgba(255, 180, 79, 0.35);
       --red: #DC2626;
       --red-hover: #B91C1C;
       --white: #FFFFFF;
@@ -127,9 +127,10 @@
       overflow: hidden;
       padding: 36px 0 12px;
       background:
-        radial-gradient(ellipse 60% 70% at 82% 45%, rgba(25, 123, 89, 0.55), transparent 62%),
-        radial-gradient(ellipse 45% 40% at 10% 0%, rgba(246, 201, 69, 0.10), transparent 55%),
-        linear-gradient(180deg, #0A3628 0%, #0F4C3A 58%, #0A3628 100%);
+        radial-gradient(ellipse 58% 52% at 14% 0%, rgba(62, 190, 137, 0.36), transparent 62%),
+        radial-gradient(ellipse 60% 70% at 82% 45%, rgba(47, 160, 113, 0.42), transparent 64%),
+        radial-gradient(ellipse 42% 36% at 22% 8%, rgba(255, 180, 79, 0.10), transparent 55%),
+        linear-gradient(180deg, #0E4B35 0%, #0F523A 52%, #0A3628 100%);
     }
     .hero::before {
       content: "101";
@@ -140,7 +141,7 @@
       font-weight: 800;
       font-size: clamp(160px, 28vw, 340px);
       line-height: 0.8;
-      color: rgba(246, 201, 69, 0.055);
+      color: rgba(255, 180, 79, 0.055);
       letter-spacing: -0.06em;
       pointer-events: none;
       user-select: none;
@@ -241,13 +242,13 @@
       width: 100%;
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(246, 201, 69, 0.18);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 180, 79, 0.18);
       transition: transform .2s ease, box-shadow .2s ease;
       line-height: 0;
     }
     .hero-photo a:hover {
       transform: translateY(-2px);
-      box-shadow: 0 22px 46px rgba(0, 0, 0, 0.44), 0 0 0 1px rgba(246, 201, 69, 0.32);
+      box-shadow: 0 22px 46px rgba(0, 0, 0, 0.44), 0 0 0 1px rgba(255, 180, 79, 0.32);
     }
     .hero-photo a:focus-visible {
       outline: 2px solid var(--gold);
@@ -278,8 +279,8 @@
 
     .learn {
       background: #0C3D30;
-      border-top: 1px solid rgba(246, 201, 69, 0.12);
-      border-bottom: 1px solid rgba(246, 201, 69, 0.12);
+      border-top: 1px solid rgba(255, 180, 79, 0.12);
+      border-bottom: 1px solid rgba(255, 180, 79, 0.12);
     }
     .topic-grid {
       display: grid;
@@ -322,7 +323,7 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      background: linear-gradient(90deg, rgba(25, 123, 89, 0.35), rgba(246, 201, 69, 0.08));
+      background: linear-gradient(90deg, rgba(25, 123, 89, 0.35), rgba(255, 180, 79, 0.08));
       border: 1px solid var(--gold-line);
       border-radius: var(--radius);
       padding: 16px 22px;
@@ -497,7 +498,7 @@
     .risk {
       margin: 0 0 16px;
       padding: 14px 16px;
-      background: rgba(246, 201, 69, 0.08);
+      background: rgba(255, 180, 79, 0.08);
       border: 1px solid var(--gold-line);
       border-radius: 12px;
       color: var(--ivory);
